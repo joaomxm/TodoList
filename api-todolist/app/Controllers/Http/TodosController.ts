@@ -1,13 +1,46 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Todo from 'App/Models/Todo'
 
 export default class TodosController {
-  public async index({}: HttpContextContract) {}
+  public async index({ request }: HttpContextContract) {
+    const { group: idTodoGroup } = request.qs()
+    const todos = await Todo.query().where('group_id', idTodoGroup)
 
-  public async store({}: HttpContextContract) {}
+    return { data: todos, msg: 'Success' }
+  }
 
-  public async show({}: HttpContextContract) {}
+  public async store({ request, response }: HttpContextContract) {
+    const todoData = request.only(['name', 'description', 'group_id'])
+    const newTodo = await Todo.create(todoData)
 
-  public async update({}: HttpContextContract) {}
+    response.status(201)
+    return { data: newTodo, msg: 'Success' }
+  }
 
-  public async destroy({}: HttpContextContract) {}
+  public async show({ params }: HttpContextContract) {
+    const idTodo = params.id
+    const todo = await Todo.findOrFail(idTodo)
+
+    return { data: todo, msg: 'Success' }
+  }
+
+  public async update({ request, params }: HttpContextContract) {
+    const idTodo = params.id
+    const todoData = request.only(['name', 'description', 'group_id'])
+    const todo = await Todo.findOrFail(idTodo)
+
+    todo.merge(todoData)
+    await todo.save()
+
+    return { data: todo, msg: 'Success' }
+  }
+
+  public async destroy({ params }: HttpContextContract) {
+    const idTodo = params.id
+    const todo = await Todo.findOrFail(idTodo)
+
+    await todo.delete()
+
+    return { data: todo, msg: 'Success' }
+  }
 }
