@@ -9,7 +9,8 @@ export default class GroupTodosController {
 
   public async store({ request, response }: HttpContextContract) {
     const { name } = request.all()
-    const newGroup = await GroupTodo.create({ name })
+    const slugName = name.split(' ').join('_').toLowerCase()
+    const newGroup = await GroupTodo.create({ name, slugName })
 
     response.status(201)
 
@@ -28,7 +29,9 @@ export default class GroupTodosController {
     const { name } = request.all()
 
     const groupsTodos = await GroupTodo.findOrFail(idGroupTodo)
+    const slugName = name.split(' ').join('_').toLowerCase()
     groupsTodos.name = name
+    groupsTodos.slugName = slugName
     await groupsTodos.save()
 
     return { data: groupsTodos, msg: 'Success' }

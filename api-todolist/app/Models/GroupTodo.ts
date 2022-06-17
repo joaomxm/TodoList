@@ -8,6 +8,9 @@ export default class GroupTodo extends BaseModel {
   @column()
   public name: string
 
+  @column()
+  public slugName: string
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
