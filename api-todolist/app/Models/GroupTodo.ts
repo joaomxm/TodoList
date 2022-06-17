@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import Todo from './Todo'
 
 export default class GroupTodo extends BaseModel {
   @column({ isPrimary: true })
@@ -10,6 +11,11 @@ export default class GroupTodo extends BaseModel {
 
   @column()
   public slugName: string
+
+  @hasMany(() => Todo, {
+    foreignKey: 'group_id',
+  })
+  public todo: HasMany<typeof Todo>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

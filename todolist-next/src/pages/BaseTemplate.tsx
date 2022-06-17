@@ -1,5 +1,6 @@
-import { Box, Button, Center, color, Flex, Grid, HStack, Stack, VStack } from "@chakra-ui/react";
+import { Box, Center, Flex, Grid, HStack, Stack, VStack,IconButton } from "@chakra-ui/react";
 import {useState} from 'react'
+import { HiPlus,HiOutlineMenu } from "react-icons/hi";
 import { TodoGroup } from '../components/GroupsTodos'
 import { ListToDo } from '../components/ListTodo'
 
@@ -26,7 +27,9 @@ export default function BaseTemplate(){
                 <Box w="full" h={14} bg='#20212c' style={{'borderBottom':'2px solid #191921' }}>
                     <HStack>
                         <Flex>
-                            <Box><button onClick={toggleMenu}>menu</button></Box>
+                            <Box p={4} fontSize={'24px'}>                            
+                                <HiOutlineMenu onClick={toggleMenu} cursor={'pointer'}/>
+                            </Box>
                             <Box>Grupos</Box>
                         </Flex>
                     </HStack>
@@ -34,8 +37,12 @@ export default function BaseTemplate(){
                 <HStack  w="full" h='full' style={{'margin':0}}>
                 <Stack w={sizeModal} h='full' bg='#20212c' style={{'margin':0}} transition={'width 0.2s , opacity 0s'} opacity={opacityValue} >
                         <Box p={5}>
-                            Grupos de Tarefas
+                            Grupos de Tarefas 
                         </Box>
+                            <Box>
+                                Novo grupo 
+                            <IconButton aria-label="Adicionar-Grupo" colorScheme='pink' size={'xs'} fontSize='16px' color={'black'} mr={2} icon={<HiPlus/>}/>
+                                </Box>
                         <TodoGroup setValue={setValue} />
                         
                 </Stack>

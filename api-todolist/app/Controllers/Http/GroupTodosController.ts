@@ -17,9 +17,12 @@ export default class GroupTodosController {
     return { data: newGroup, msg: 'Success' }
   }
 
-  public async show({ params }: HttpContextContract) {
+  public async show({ params, response }: HttpContextContract) {
     const idGroupTodo = params.id
-    const groupsTodos = await GroupTodo.findOrFail(idGroupTodo)
+
+    const groupsTodos = await GroupTodo.query().where('id', idGroupTodo).preload('todo')
+
+    if (groupsTodos.length === 0) response.status(404)
 
     return { data: groupsTodos, msg: 'Success' }
   }

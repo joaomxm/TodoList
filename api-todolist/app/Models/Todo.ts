@@ -1,7 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, HasOne } from '@ioc:Adonis/Lucid/Orm'
-import GroupTodo from './GroupTodo'
-
+import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 export default class Todo extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -13,7 +11,7 @@ export default class Todo extends BaseModel {
   public description: string
 
   @column()
-  public group_id: HasOne<typeof GroupTodo>
+  public group_id: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
