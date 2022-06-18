@@ -11,6 +11,9 @@ export default class Todo extends BaseModel {
   public description: string
 
   @column()
+  public finished: boolean
+
+  @column()
   public group_id: number
 
   @column.dateTime({ autoCreate: true })
