@@ -1,24 +1,38 @@
 import { Box, IconButton, Stack, HStack, Checkbox,  Input, FormControl } from "@chakra-ui/react"
 
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
 import {IoIosCloseCircle} from 'react-icons/io'
-
+import {MdOutlineRemove} from 'react-icons/md'
 import {BsCheckCircleFill, BsCalendarWeekFill} from 'react-icons/bs'
 import {MdModeEdit} from 'react-icons/md'
 
-export function InputEditTodo({ data, updateTodo }){
+export function InputEditTodo({ data, updateTodo, updateStateTodo, deleteTodo }){
     const [isEdit,setIsEdit] = useState(false)
     const [valueInput,setValueInput] = useState('')
+    const [valueChecked,setValueChecked] = useState(data.finished)
+    const [finishedTodo,setFinishedTodo] = useState({})
 
     function validaSubmit(e){
         e.preventDefault()    
         updateTodo(valueInput,data.id)
         setIsEdit(false)
-        
-    
-    
     }
+
+    function onChangeCheckbox(e){
+        setValueChecked(e.target.checked)
+        const newData = {
+            name:data.name,
+            description:data.description,
+            finished:valueChecked
+        }
+        updateStateTodo(newData,data.id)
+    }
+
+    useEffect(()=>{
+        if (!valueChecked) setFinishedTodo({opacity:'100%',finished:false}) 
+        else setFinishedTodo({opacity:'50%',finished:true})
+    },[valueChecked])
 
 
   return (
@@ -40,21 +54,29 @@ export function InputEditTodo({ data, updateTodo }){
             </form>
         :
         
-        <Stack w='full'>
-                        <Stack><Box fontSize={'20px'}>{data.name}</Box></Stack>
+        <Stack w='full' opacity={finishedTodo.opacity}>
+                        <HStack w='full' justifyContent={'space-between'}><Box fontSize={'20px'} >{data.name}  </Box><MdOutlineRemove cursor={'pointer'} onClick={(e)=>deleteTodo(data.id)}/></HStack>
                     <HStack w='full' justifyContent={'space-between'}>
-                        <Checkbox  borderRadius={2} defaultChecked={false} >
+                        <Checkbox isChecked={valueChecked}  borderRadius={2} defaultChecked={false} onChange={(e)=>onChangeCheckbox(e)}>
                             {data.description}
                         </Checkbox>
                         <MdModeEdit onClick={(e)=>setIsEdit(true)} fontSize='20px' cursor={'pointer'}/>
                     </HStack>
-                    <HStack w='full' pl={2} fontSize={'12px'} color={'#bcbcbf'}>
+                    <HStack w='full'  fontSize={'12px'} color={'#bcbcbf'}>
                             <BsCalendarWeekFill/>
                             <Box>Atualizado em: </Box>
                         <Box fontSize={'xs'}>
-                            {data.updated_at}
+                            
+                            {new Date(data.updated_at).toLocaleDateString()} - {new Date(data.updated_at).toLocaleTimeString()}
+                            
                         </Box>
                         </HStack>
+
+                        {finishedTodo.finished?
+                    <HStack w={'full'} justifyContent={'flex-end'}>
+                        <BsCheckCircleFill color="#38a169"></BsCheckCircleFill>
+                    </HStack> 
+                    :<></>}
                 </Stack>
         
         

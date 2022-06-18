@@ -49,7 +49,7 @@ export default function BaseTemplate(){
                 <Stack w="full" h='full' bg="#17181f" style={{'margin':0}}>
                     <Center>
                         <Box w="60%" >
-                            <ListToDo value={value} />
+                            <ListToDo value={value} setValue={setValue} />
                         </Box>
                     </Center>
                 </Stack>

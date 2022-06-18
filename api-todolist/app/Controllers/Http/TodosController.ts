@@ -27,7 +27,7 @@ export default class TodosController {
 
   public async update({ request, params }: HttpContextContract) {
     const idTodo = params.id
-    const todoData = request.only(['name', 'description', 'group_id', 'finished'])
+    const todoData = request.only(['name', 'description', 'finished'])
     const todo = await Todo.findOrFail(idTodo)
 
     todo.merge(todoData)
@@ -36,10 +36,10 @@ export default class TodosController {
     return { data: todo, msg: 'Success' }
   }
 
+
   public async destroy({ params }: HttpContextContract) {
     const idTodo = params.id
     const todo = await Todo.findOrFail(idTodo)
-
     await todo.delete()
 
     return { data: todo, msg: 'Success' }

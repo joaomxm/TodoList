@@ -1,7 +1,6 @@
 import { Button, Stack } from '@chakra-ui/react'
 import axios from 'axios'
 import {useState,useEffect} from 'react'
-import { ListToDo } from './ListTodo'
 
 export function TodoGroup({setValue}){
 
