@@ -1,6 +1,9 @@
-import { Box, Center, Flex, Grid, HStack, Stack, VStack,IconButton } from "@chakra-ui/react";
+import { Box, Center, Flex, Grid, HStack, Stack, VStack,IconButton, Menu, Button, MenuButton, MenuList, MenuItem, AvatarGroup, Avatar, Divider } from "@chakra-ui/react";
 import {useState} from 'react'
 import { HiPlus,HiOutlineMenu } from "react-icons/hi";
+import { SiBookstack } from "react-icons/si";
+import { BsBellFill } from "react-icons/bs";
+import { IoIosLogOut } from "react-icons/io";
 import { TodoGroup } from '../components/GroupsTodos'
 import { ListToDo } from '../components/ListTodo'
 
@@ -24,25 +27,66 @@ export default function BaseTemplate(){
     <Grid minH="100vh" bg='#20212c' style={{'margin':0 ,color:"white"}}>
         <HStack w="full">
             <VStack w="full" h='full'>
-                <Box w="full" h={14} bg='#20212c' style={{'borderBottom':'2px solid #191921' }}>
-                    <HStack>
+                <Box w="full" h={14} bg='#20212c' style={{'borderBottom':'2px solid #191921' }} color={'white'}>
+                    <HStack w={'full'} justifyContent={'space-between'}>
                         <Flex>
-                            <Box p={4} fontSize={'24px'}>                            
+                            <Box p={4} fontSize={'24px'} mr={5}>                            
                                 <HiOutlineMenu onClick={toggleMenu} cursor={'pointer'}/>
                             </Box>
-                            <Box>Grupos</Box>
+                            <HStack>
+
+                            <Menu isLazy>
+                            <MenuButton  >
+                            <HStack>
+
+                            <SiBookstack/> <Box fontWeight={'500'}>Grupos de Tarefas </Box>
+                            </HStack>
+                             
+                            </MenuButton>
+                            <MenuList color={'black'}>
+                                <MenuItem> <HiPlus/> <Box ml={2}>Novo Grupo </Box></MenuItem>
+                                
+                            </MenuList>
+                            </Menu>
+                            </HStack>
+                                
+                                
                         </Flex>
+                            <HStack>
+                                <Box mr={5}>
+                                    <HStack>
+
+                                
+                                <Box>
+                                <BsBellFill />
+                                </Box>
+                                    
+                                    <Menu isLazy>
+                                    <MenuButton  >
+                                    <HStack>
+
+                                    <Avatar name='User'  size={'sm'}/>
+                                    </HStack>
+                                    
+                                    </MenuButton>
+                                    <MenuList color={'black'}>
+                                        <MenuItem> <IoIosLogOut/> <Box ml={2}>Sair</Box></MenuItem>
+                                        
+                                    </MenuList>
+                                    </Menu>
+                                    </HStack>
+                                        
+                                </Box>
+                            </HStack>
                     </HStack>
                 </Box>
                 <HStack  w="full" h='full' style={{'margin':0}}>
                 <Stack w={sizeModal} h='full' bg='#20212c' style={{'margin':0}} transition={'width 0.2s , opacity 0s'} opacity={opacityValue} >
-                        <Box p={5}>
+                        <Box  ml={4} mt={4} mr={4} fontWeight={'500'}>
                             Grupos de Tarefas 
                         </Box>
-                            <Box>
-                                Novo grupo 
-                            <IconButton aria-label="Adicionar-Grupo" colorScheme='pink' size={'xs'} fontSize='16px' color={'black'} mr={2} icon={<HiPlus/>}/>
-                                </Box>
+                        <Divider />
+                           
                         <TodoGroup setValue={setValue} />
                         
                 </Stack>
