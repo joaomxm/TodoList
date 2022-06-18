@@ -1,6 +1,6 @@
-import { Box, IconButton,Text,  Flex,  Grid, HStack, Input, FormControl } from "@chakra-ui/react"
+import { Box, IconButton,Text,  Flex,  Grid, HStack, Input } from "@chakra-ui/react"
 import axios from "axios"
-import {useEffect, useState, useRef} from 'react'
+import {useEffect, useState} from 'react'
 
 import {HiPlus} from 'react-icons/hi'
 import {IoMdArrowBack,IoIosCloseCircle} from 'react-icons/io'
@@ -94,7 +94,7 @@ if(value){
         <HStack mt={10} w='full' >
             <HStack w='full' border={'2px solid  #1d1d26'} borderRadius={'15px'} p={2}>
             <Box>
-                <IconButton aria-label="Adicionar-tarefa" colorScheme='pink' size={'xs'} fontSize='16px' color={'black'} mr={2} icon={<HiPlus/>} onClick={(e)=>setIsCreate(true)}/>
+                <IconButton aria-label="Adicionar-tarefa" colorScheme='blue' size={'xs'} fontSize='16px' color={'black'} mr={2} icon={<HiPlus/>} onClick={(e)=>setIsCreate(true)}/>
             </Box>
             <Box>
             Adicionar tarefa

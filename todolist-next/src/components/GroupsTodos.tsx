@@ -3,25 +3,7 @@ import axios from 'axios'
 import {useState,useEffect} from 'react'
 import {MdOutlineHorizontalRule} from 'react-icons/md'
 
-export function TodoGroup({setValue}){
-
-    const [groups, setToDos] =useState([])
-
-
-useEffect(()=>{
-    async function getGroupsToDo(){
-        const {data} = await axios.get(`http://127.0.0.1:3333/api/groups/`,{
-          
-        })
-        setToDos(data.data)       
-    }
-    
-    getGroupsToDo()
-    console.log(groups);
-    
-    
-    
-},[])
+export function TodoGroup({setValue,groups}){
 
     return (
         <>
