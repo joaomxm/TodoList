@@ -15,7 +15,7 @@ export default class GroupTodo extends BaseModel {
   @hasMany(() => Todo, {
     foreignKey: 'group_id',
   })
-  public todo: HasMany<typeof Todo>
+  public todos: HasMany<typeof Todo>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
