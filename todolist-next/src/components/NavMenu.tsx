@@ -3,23 +3,15 @@ import { HiPlus,HiOutlineMenu } from "react-icons/hi";
 import { SiBookstack } from "react-icons/si";
 import { BsBellFill } from "react-icons/bs";
 import { IoIosLogOut } from "react-icons/io";
-import { BaseModal } from "./Modal";
+import { BaseModal } from "./modal/BaseModal";
 import { useState } from "react";
 import axios from "axios";
+import { ModalCreateGroup } from "./modal/ModalCreateGroup";
 
 
 export function NavMenu({ toggleMenu, getGroupsToDo }){
     const [modalOpen, setModalOpen] = useState(false)
     const [valueNameGroup, setValueNameGroup] = useState('')
-
-    async function createGroupTodo(e){
-        e.preventDefault()
-        axios.post('http://127.0.0.1:3333/api/groups/',{
-            name:valueNameGroup
-        })
-        setModalOpen(false)
-        getGroupsToDo()
-    }
 
     return(
             <Box w="full" h={14} bg='#3981ab' style={{'borderBottom':'2px solid #191921' }} color={'white'}>
@@ -73,21 +65,8 @@ export function NavMenu({ toggleMenu, getGroupsToDo }){
                                         
                                 </Box>
                             </HStack>
-                            <BaseModal title={'Novo Grupo de Tarefas'} isOpen={modalOpen} onClose={(e)=>setModalOpen(false)}>
-                                <form action="" method="post" onSubmit={createGroupTodo}>
-                                    <FormControl>
-                                        <FormLabel>Nome do Grupo</FormLabel>
-                                        <Input name='name' placeholder='Nome do grupo' onChange={(e)=>setValueNameGroup(e.target.value)} required/>
-                                    </FormControl>
-
-                                    <HStack mt={4} justifyContent={'flex-end'}>
-                                        <Button colorScheme='blue' mr={3} type='submit'>Salvar</Button>
-                                        <Button onClick={(e)=>setModalOpen(false)}>Fechar</Button>
-                                    </HStack>
-                                </form>
-                               
-                                
-                            </BaseModal>
+                            <ModalCreateGroup  modalOpen={modalOpen} setModalOpen={setModalOpen}  getGroupsToDo={getGroupsToDo} />
+                            
                     </HStack>
                 </Box>
     )

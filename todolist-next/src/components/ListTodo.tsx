@@ -1,4 +1,4 @@
-import { Box, IconButton,Text,  Flex,  Grid, HStack, Input } from "@chakra-ui/react"
+import { Box, IconButton,Text,  Flex,  Grid, HStack, Input, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react"
 import axios from "axios"
 import {useEffect, useState} from 'react'
 
@@ -8,14 +8,19 @@ import {RiMoreFill} from 'react-icons/ri'
 
 import {BsCheckCircleFill} from 'react-icons/bs'
 import { InputEditTodo } from "./InpuEditTodo"
+import { MdDelete, MdModeEdit } from "react-icons/md"
+import { ModalUpdateGroup } from "./modal/ModalUpdateGroup"
+import { ModalDeleteGroup } from "./modal/ModalDeleteGroup"
 
 
-export function ListToDo({ value, setValue }){
+export function ListToDo({ value, setValue, getGroupsToDo }){
     const [toDos,setToDos] = useState([])
     const [idGroup,setIdGroup] = useState(null)
     const [groupTodo,setGroupTodo] = useState({})
     const [isCreate,setIsCreate] = useState(false)
     const [valueNewTodo,setValueNewTodo] = useState({name:'', description:''})
+    const [modalUpdateOpen, setModalUpdateOpen] = useState(false)
+    const [modalDeleteOpen, setModalDeleteOpen] = useState(false)
     
 
 useEffect(()=>{
@@ -39,7 +44,9 @@ async function getToDos(){
     const {data} = await axios.get(`http://127.0.0.1:3333/api/groups/${idGroup}`)
     setGroupTodo(data.data)
     setToDos(data.data.todos)       
+    
 }
+
 
 async function createTodo(e){
     e.preventDefault() 
@@ -57,13 +64,15 @@ async function updateTodo(newData,id){
     const {data} = await axios.put(`http://127.0.0.1:3333/api/todos/${id}`,{
         description:newData
     })
-    getToDos()
+    await getToDos()
 }
 async function updateStateTodo(newData,id){
+    console.log(newData);
+    
     const {data} = await axios.put(`http://127.0.0.1:3333/api/todos/${id}`,{
-        newData
+        ...newData
     })
-    getToDos()
+    await getToDos()
 }
 
 async function deleteTodo(id){
@@ -86,9 +95,23 @@ if(value){
             </Flex>
             
             <Box>
-            <RiMoreFill fontSize='20px' cursor={'pointer'} />
-                
+            <Menu isLazy>
+                <MenuButton  >
+                <HStack>
+
+                <RiMoreFill fontSize='20px' cursor={'pointer'} />
+                </HStack>
+                    
+                </MenuButton>
+                <MenuList color={'black'}>
+                    <MenuItem onClick={(e)=>setModalUpdateOpen(true)}><MdModeEdit/><Box ml={2}>Editar Grupo</Box></MenuItem>
+                    <MenuItem onClick={(e)=>setModalDeleteOpen(true)}><MdDelete /><Box ml={2}>Deletar Grupo</Box></MenuItem>
+                </MenuList>
+                </Menu>
             </Box>
+            <ModalUpdateGroup  modalUpdateOpen={modalUpdateOpen} setModalUpdateOpen={setModalUpdateOpen} id={groupTodo.id} value={groupTodo.name}  getToDos={getToDos} getGroupsToDo={getGroupsToDo} />
+            <ModalDeleteGroup  modalDeleteOpen={modalDeleteOpen} setModalDeleteOpen={setModalDeleteOpen} id={groupTodo.id}  getToDos={getToDos} getGroupsToDo={getGroupsToDo} setValue={setValue} />
+
         </HStack>
     
         <HStack mt={10} w='full' >
@@ -142,38 +165,6 @@ return(
            
         </HStack>
     </HStack>
-
-    {/* <HStack mt={10} w='full' >
-        <HStack w='full' border={'2px solid  #1d1d26'} borderRadius={'15px'} p={2}>
-        <Box>
-            <IconButton aria-label="Adicionar-tarefa" colorScheme='pink' size={'xs'} fontSize='16px' color={'black'} mr={2} icon={<HiPlus/>} onClick={(e)=>setIsCreate(true)}/>
-        </Box>
-        <Box>
-        Adicionar tarefa
-        </Box>
-        </HStack>
-    </HStack>
-    {isCreate?
-    <HStack  mt={10} w='full'>
-        <HStack  w='full' borderRadius={'8px'} backgroundColor={'#21212b'} p={4} >
-            
-            <HStack w={'full'}>
-                <Input  placeholder={'To do...'}/>
-              <IconButton colorScheme={'red'} aria-label="fechar-tarefa"  fontSize='20px' icon={<IoIosCloseCircle/>} onClick={(e)=>setIsCreate(false)}/>
-              <IconButton colorScheme={'green'} aria-label="editar-tarefa"  fontSize='16px'icon={<BsCheckCircleFill/>} onClick={(e)=>setIsCreate(false)}/>
-              
-            </HStack>
-           
-        </HStack>
-        
-    </HStack>
-        :
-        <></>}
-    {
-        toDos.map((data,key)=>(
-            <InputEditTodo key={key} data={data} updateTodo={updateTodo}/>
-            ))
-        }    */}
     </Grid>
 )
 

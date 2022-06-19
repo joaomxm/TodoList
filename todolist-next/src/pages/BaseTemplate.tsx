@@ -11,7 +11,7 @@ export default function BaseTemplate(){
     const [sizeModal, setSizeModal] = useState(60)
     const [opacityValue, setOpacityValue] = useState('100%')
     
-    const [groups, setToDos] =useState([])
+    const [groups, setGroupToDos] =useState([])
 
     function toggleMenu(){
         if(sizeModal===0){
@@ -26,7 +26,7 @@ export default function BaseTemplate(){
         const {data} = await axios.get(`http://127.0.0.1:3333/api/groups/`,{
           
         })
-        setToDos(data.data)       
+        setGroupToDos(data.data)       
     }
     
     useEffect(()=>{
@@ -34,7 +34,7 @@ export default function BaseTemplate(){
             const {data} = await axios.get(`http://127.0.0.1:3333/api/groups/`,{
             
             })
-            setToDos(data.data)       
+            setGroupToDos(data.data)       
         }
         
         getGroupsToDo()    
@@ -49,7 +49,7 @@ export default function BaseTemplate(){
             <VStack w="full" h='full'>
                 
                 <NavMenu toggleMenu={toggleMenu} getGroupsToDo={getGroupsToDo} />
-                <MenuGroup sizeModal={sizeModal} opacityValue={opacityValue} setValue={setValue} value={value} groups={groups} />
+                <MenuGroup sizeModal={sizeModal} opacityValue={opacityValue} setValue={setValue} value={value} groups={groups} getGroupsToDo={getGroupsToDo} />
                 
             </VStack>
            

@@ -29,6 +29,7 @@ export default class TodosController {
     const idTodo = params.id
     const todoData = request.only(['name', 'description', 'finished'])
     const todo = await Todo.findOrFail(idTodo)
+    console.log(todoData);
 
     todo.merge(todoData)
     await todo.save()
