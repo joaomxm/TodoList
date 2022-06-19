@@ -21,7 +21,7 @@ export function ModalCreateGroup({ modalOpen,setModalOpen,getGroupsToDo }) {
             <form action="" method="post" onSubmit={createGroupTodo}>
                 <FormControl>
                     <FormLabel>Nome do Grupo</FormLabel>
-                    <Input name='name' placeholder='Nome do grupo' onChange={(e)=>setValueNameGroup(e.target.value)} required/>
+                    <Input name='name' placeholder='Nome do grupo' onChange={(e)=>setValueNameGroup(e.target.value)} required autoFocus/>
                 </FormControl>
 
                 <HStack mt={4} justifyContent={'flex-end'}>

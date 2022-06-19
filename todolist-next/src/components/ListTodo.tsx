@@ -1,16 +1,16 @@
-import { Box, IconButton,Text,  Flex,  Grid, HStack, Input, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react"
+import { Box, IconButton,Text,  Flex,  Grid, HStack, Input, Menu, MenuButton, MenuList, MenuItem, Stack } from "@chakra-ui/react"
 import axios from "axios"
 import {useEffect, useState} from 'react'
 
 import {HiPlus} from 'react-icons/hi'
 import {IoMdArrowBack,IoIosCloseCircle} from 'react-icons/io'
 import {RiMoreFill} from 'react-icons/ri'
-
 import {BsCheckCircleFill} from 'react-icons/bs'
 import { InputEditTodo } from "./InpuEditTodo"
 import { MdDelete, MdModeEdit } from "react-icons/md"
 import { ModalUpdateGroup } from "./modal/ModalUpdateGroup"
 import { ModalDeleteGroup } from "./modal/ModalDeleteGroup"
+
 
 
 export function ListToDo({ value, setValue, getGroupsToDo }){
@@ -21,6 +21,8 @@ export function ListToDo({ value, setValue, getGroupsToDo }){
     const [valueNewTodo,setValueNewTodo] = useState({name:'', description:''})
     const [modalUpdateOpen, setModalUpdateOpen] = useState(false)
     const [modalDeleteOpen, setModalDeleteOpen] = useState(false)
+    const [isEdit,setIsEdit] = useState(false)
+
     
 
 useEffect(()=>{
@@ -35,6 +37,7 @@ useEffect(()=>{
     if(value){
         getToDos()
     }
+    setIsEdit(false)
     
     
 },[value])
@@ -62,7 +65,8 @@ async function createTodo(e){
 
 async function updateTodo(newData,id){
     const {data} = await axios.put(`http://127.0.0.1:3333/api/todos/${id}`,{
-        description:newData
+        description:newData.description,
+        name:newData.name
     })
     await getToDos()
 }
@@ -88,7 +92,7 @@ function onChangeNewTodo(e){
 if(value){
     return(
         <Grid width={'full'}>
-        <HStack justifyContent={'space-between'} mt={20}>
+        <HStack justifyContent={'space-between'} mt={0}>
             <Flex>
                 <IconButton aria-label="Voltar" color={'black'} borderRadius={'30%'} mr={2} icon={<IoMdArrowBack/>} onClick={(e)=>setValue(null)} />
                 <Text fontSize={'xl'}>{groupTodo.name}</Text>
@@ -132,7 +136,7 @@ if(value){
                 <HStack w={'full'}>
                         
 
-                    <Input name='name' placeholder={'Nome da tarefa'} required onChange={onChangeNewTodo}/>
+                    <Input name='name' placeholder={'Nome da tarefa'} required onChange={onChangeNewTodo} autoFocus/>
                     <Input name='description' placeholder={'Descrição'} required onChange={onChangeNewTodo}/>
                   <IconButton colorScheme={'red'} aria-label="fechar-tarefa"  fontSize='20px' icon={<IoIosCloseCircle/>} onClick={(e)=>setIsCreate(false)}/>
                   <IconButton colorScheme={'green'} aria-label="editar-tarefa"  fontSize='16px'icon={<BsCheckCircleFill/>} type='submit'/>
@@ -147,7 +151,7 @@ if(value){
             <></>}
         {
             toDos.map((data,key)=>(
-                <InputEditTodo key={key} data={data} updateTodo={updateTodo} updateStateTodo={updateStateTodo} deleteTodo={deleteTodo}/>
+                <InputEditTodo key={key} data={data} updateTodo={updateTodo} updateStateTodo={updateStateTodo} deleteTodo={deleteTodo} isEdit={isEdit} setIsEdit={setIsEdit}/>
                 ))
             }   
         </Grid>
@@ -157,15 +161,9 @@ if(value){
 }
 
 return(
-    <Grid width={'full'} >
-    <HStack justifyContent={'space-between'} mt={20}>       
-    <HStack  w='full' borderRadius={'8px'} backgroundColor={'#21212b'} p={4} color='#bcbcbf'>
-            
-           <Box textAlign={'center'} w='full'>Grupo de Tarefas não selecionado</Box>
-           
-        </HStack>
-    </HStack>
-    </Grid>
+    <></>
+
+    
 )
 
 }

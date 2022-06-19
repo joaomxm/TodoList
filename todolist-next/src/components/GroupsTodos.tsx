@@ -6,23 +6,28 @@ import {MdOutlineHorizontalRule} from 'react-icons/md'
 export function TodoGroup({setValue,groups}){
 
     return (
-        <>
+        <Box  ml={4} mt={4} mr={4} fontWeight={'500'} >
+                            <Text>
         
-        <Stack color={'white'} >
-             {groups?
-                groups.map((data,key)=>(
-                    <Button key={key} backgroundColor='#20212c' variant='ghost' justifyContent={'flex-start'} borderRadius={0}  _hover={{ bg: "#272732" }} onClick={(e)=>setValue(data.id)} >
-                        <HStack fontWeight={'300'}>
-                        <MdOutlineHorizontalRule />
-                        <Box>{data.name}</Box>
-                        </HStack>
-                    </Button>
+              {groups?
+                 groups.map((data,key)=>(
+                     <Text w={'full'} key={key}  backgroundColor='#20212c' variant='ghost' justifyContent={'flex-start'} borderRadius={0}  _hover={{ bg: "#272732" }} onClick={(e)=>setValue(data.id)}>
+                         <MdOutlineHorizontalRule />
+                         
+                             <Text>
+                             {data.name}
+                             </Text>
+                            
+                         
+                     </Text>
                     
-                ))
-            :
-            <></>
-        }
-        </Stack>
-        </>
+                     ))
+                     :
+                     <></>
+                 }
+                </Text> 
+        
+        </Box>
+        
 )
 }

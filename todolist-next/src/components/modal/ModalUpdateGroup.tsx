@@ -23,7 +23,7 @@ export function ModalUpdateGroup({ modalUpdateOpen,setModalUpdateOpen,id,value,g
             <form action="" method="post" onSubmit={updateGroupTodo}>
                 <FormControl>
                     <FormLabel>Nome do Grupo</FormLabel>
-                    <Input name='name' placeholder='Nome do grupo' onChange={(e)=>setValueNameGroup(e.target.value)} required defaultValue={value}/>
+                    <Input name='name' placeholder='Nome do grupo' onChange={(e)=>setValueNameGroup(e.target.value)} required defaultValue={value} autoFocus/>
                 </FormControl>
 
                 <HStack mt={4} justifyContent={'flex-end'}>

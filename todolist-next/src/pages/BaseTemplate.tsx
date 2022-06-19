@@ -1,8 +1,9 @@
-import { Grid, HStack, VStack } from "@chakra-ui/react";
+import { Center, Container, Grid, HStack, Stack, VStack } from "@chakra-ui/react";
 import {useEffect, useState} from 'react'
 import { NavMenu } from "../components/NavMenu";
-import { MenuGroup } from "../components/MenuGroup";
 import axios from "axios";
+import { GroupTodoHome } from "../components/GroupsTodoHome";
+import { ListToDo } from "../components/ListTodo";
 
 export default function BaseTemplate(){
 
@@ -44,17 +45,28 @@ export default function BaseTemplate(){
 
 
     return(
-    <Grid minH="100vh" bg='#20212c' style={{'margin':0 ,color:"white"}}>
-        <HStack w="full">
+    <Grid minH="100vh" bg='#20212c' style={{'margin':0 ,color:"white"}} >
+        <HStack w="full" mb={5}>
             <VStack w="full" h='full'>
                 
                 <NavMenu toggleMenu={toggleMenu} getGroupsToDo={getGroupsToDo} />
-                <MenuGroup sizeModal={sizeModal} opacityValue={opacityValue} setValue={setValue} value={value} groups={groups} getGroupsToDo={getGroupsToDo} />
+                {!value?
+
+                <HStack w={'80%'} mt={10} justifyContent={'center'} >
+                <GroupTodoHome setValue={setValue} groups={groups}/>
+            </HStack>
+                :
+                <HStack w={'60%'} mt={10} mb={10} justifyContent={'center'} bg='#272732' h={'full'} alignItems={'flex-start'} p={4} borderRadius={'8px'}>
+
+                <ListToDo value={value} setValue={setValue} getGroupsToDo={getGroupsToDo}/>
+                </HStack>
+
+            }
+                {/* <MenuGroup sizeModal={sizeModal} opacityValue={opacityValue} setValue={setValue} value={value} groups={groups} getGroupsToDo={getGroupsToDo} /> */}
                 
             </VStack>
            
         </HStack>
-        {/* <BaseModal isOpen={modalOpen} onClose={(e)=>setModalOpen(false)}/> */}
     </Grid>
     )
 

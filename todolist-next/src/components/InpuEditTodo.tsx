@@ -7,9 +7,9 @@ import {MdOutlineRemove} from 'react-icons/md'
 import {BsCheckCircleFill, BsCalendarWeekFill} from 'react-icons/bs'
 import {MdModeEdit} from 'react-icons/md'
 
-export function InputEditTodo({ data, updateTodo, updateStateTodo, deleteTodo }){
-    const [isEdit,setIsEdit] = useState(false)
-    const [valueInput,setValueInput] = useState('')
+export function InputEditTodo({ data, updateTodo, updateStateTodo, deleteTodo,isEdit,setIsEdit }){
+    // const [isEdit,setIsEdit] = useState(false)
+    const [valueInput,setValueInput] = useState({name:data.name,description:data.description})
     const [valueChecked,setValueChecked] = useState(data.finished)
     const [finishedTodo,setFinishedTodo] = useState({})
 
@@ -24,15 +24,24 @@ export function InputEditTodo({ data, updateTodo, updateStateTodo, deleteTodo })
         const newData = {
             name:data.name,
             description:data.description,
-            finished:valueChecked
+            finished:e.target.checked
         }
         updateStateTodo(newData,data.id)
     }
-
+    function onChangeInput(e){
+        const { name, value } = e.target
+        setValueInput(values => ({...values, [name]: value }))
+    }
     useEffect(()=>{
+        
         if (!valueChecked) setFinishedTodo({opacity:'100%',finished:false}) 
         else setFinishedTodo({opacity:'50%',finished:true})
     },[valueChecked])
+
+    useEffect(()=>{
+        console.log(isEdit);
+        
+    },[])
 
 
   return (
@@ -42,10 +51,10 @@ export function InputEditTodo({ data, updateTodo, updateStateTodo, deleteTodo })
             <form style={{width:'100%'}} action="" method="post" onSubmit={validaSubmit}>
         <HStack w={'full'}>
             <FormControl>
-  
-  
-            <Input defaultValue={data.description} placeholder={'To do...'} required onChange={(e)=>setValueInput(e.target.value)}/>
-            
+            <Input name='name' defaultValue={data.name} placeholder={'Nome da tarefa'} required onChange={onChangeInput} autoFocus/>
+            </FormControl>
+            <FormControl>
+            <Input name='description' defaultValue={data.description} placeholder={'Descrição'} required onChange={onChangeInput} />
             </FormControl>
                 <IconButton colorScheme={'red'} aria-label="fechar-tarefa"  fontSize='20px' icon={<IoIosCloseCircle/>} onClick={(e)=>setIsEdit(false)}/>
                 <IconButton  type='submit' colorScheme={'green'} aria-label="editar-tarefa"  fontSize='16px'icon={<BsCheckCircleFill/>}/>
